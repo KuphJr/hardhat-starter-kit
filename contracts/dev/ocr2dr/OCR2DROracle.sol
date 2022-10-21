@@ -14,7 +14,7 @@ contract OCR2DROracle is
     AuthorizedReceiver,
     ConfirmedOwner
 {
-    event OracleRequest(bytes32 requestId, bytes data);
+    event OracleRequest(bytes32 requestId, bytes data, address secretsOwner);
     event OracleResponse(bytes32 requestId);
 
     error EmptyRequestData();
@@ -61,6 +61,7 @@ contract OCR2DROracle is
         s_nonce++;
         bytes32 requestId = keccak256(abi.encodePacked(msg.sender, s_nonce));
         s_commitments[requestId] = Commitment(msg.sender, subscriptionId);
+        address secretsOwner = BillingContract.getSecretsOwner(subscriptionId);
         emit OracleRequest(requestId, data);
         return requestId;
     }
