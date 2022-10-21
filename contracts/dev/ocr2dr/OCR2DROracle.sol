@@ -59,7 +59,7 @@ contract OCR2DROracle is
             revert EmptyRequestData();
         }
         s_nonce++;
-        bytes32 requestId = keccak256(abi.encodePacked(msg.sender, s_nonce));
+        bytes32 requestId = keccak256(abi.encodePacked(msg.sender, address(this), s_nonce));
         s_commitments[requestId] = Commitment(msg.sender, subscriptionId);
         emit OracleRequest(requestId, data);
         return requestId;
